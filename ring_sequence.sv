@@ -1,10 +1,10 @@
 //`include "uvm_mocras.svh"
 //import uvm_pkg::*;
 
-class hello_sequence extends uvm_sequence #(hello_transaction);
-    hello_transaction m_trans;
+class ring_sequence extends uvm_sequence #(ring_transaction);
+    ring_transaction m_trans;
 
-    extern function new(string name ="hello_sequence");
+    extern function new(string name ="ring_sequence");
     virtual task body();
         if(starting_phase != null)
             starting_phase.raise_objection(this);
@@ -16,9 +16,9 @@ class hello_sequence extends uvm_sequence #(hello_transaction);
             starting_phase.drop_objection(this);
     endtask
 
-    `uvm_object_utils(hello_sequence)
+    `uvm_object_utils(ring_sequence)
 endclass
 
-function hello_sequence::new(string name = "hello_sequence");
+function ring_sequence::new(string name = "ring_sequence");
     super.new(name);
 endfunction

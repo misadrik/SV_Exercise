@@ -1,7 +1,7 @@
 //`include "uvm_macros.svh"
 //import uvm_pkg::*;
 
-class hello_transaction extends uvm_sequence_item;
+class ring_transaction extends uvm_sequence_item;
     rand bit [47:0] dmac;
     rand bit [47:0] smac;
     rand bit [15:0] ether_type;
@@ -12,8 +12,8 @@ class hello_transaction extends uvm_sequence_item;
         pload.size >=46;
         pload.size <=1500;
     }
-    extern function new (string name = "hello_transaction");
-    `uvm_object_utils_begin(hello_transaction)
+    extern function new (string name = "ring_transaction");
+    `uvm_object_utils_begin(ring_transaction)
         `uvm_field_int(dmac,UVM_ALL_ON)
         `uvm_field_int(smac,UVM_ALL_ON)
         `uvm_field_int(ether_type,UVM_ALL_ON)
@@ -22,6 +22,6 @@ class hello_transaction extends uvm_sequence_item;
     `uvm_object_utils_end//上面是为了加入factory实现，其是factory实现要使用的uvm_object_utils要使用的宏
 endclass
 
-function hello_transaction::new(string name = "hello_transaction");
+function ring_transaction::new(string name = "ring_transaction");
     super.new(name);
 endfunction

@@ -1,32 +1,32 @@
 //`include "uvm_macros.svh"
 //import uvm_pkg::*;
 
-class hello_monitor extends uvm_monitor;
-    virtual hello_if vif;
-    uvm_analysis_port #(hello_transaction) ap;
+class ring_monitor extends uvm_monitor;
+    virtual ring_if vif;
+    uvm_analysis_port #(ring_transaction) ap;
     extern function new (string name,uvm_component parent);
     extern virtual function void build_phase(uvm_phase phase);
     extern virtual task main_phase(uvm_phase phase);
-    extern task receive_one_pkt(ref hello_transaction get_pkt);
+    extern task receive_one_pkt(ref ring_transaction get_pkt);
     extern task get_one_byte(ref logic valid,ref logic [7:0] data);
-    `uvm_component_utils(hello_monitor)
+    `uvm_component_utils(ring_monitor)
 endclass
 
-function hello_monitor::new(string name,uvm_component parent);
+function ring_monitor::new(string name,uvm_component parent);
     super.new(name,parent);
 endfunction
 
-function void hello_monitor::build_phase(uvm_phase phase);
+function void ring_monitor::build_phase(uvm_phase phase);
     super.build_phase(phase);
-    if(!uvm_config_db#(virtual hello_if)::get(this,"","hello_if",vif))
-        uvm_report_fatal("hello_monitor","Error in Geting Interface");
+    if(!uvm_config_db#(virtual ring_if)::get(this,"","ring_if",vif))
+        uvm_report_fatal("ring_monitor","Error in Geting Interface");
     ap = new("ap",this);
 endfunction
 
-task hello_monitor::main_phase(uvm_phase phase);
+task ring_monitor::main_phase(uvm_phase phase);
     logic valid;
     logic [7:0] data;
-    hello_transaction tr;
+    ring_transaction tr;
     super.main_phase(phase);
     while(1) begin
         tr = new();
@@ -38,13 +38,13 @@ task hello_monitor::main_phase(uvm_phase phase);
     end
 endtask
 
-task hello_monitor::get_one_byte(ref logic valid ,ref logic [7:0] data );
+task ring_monitor::get_one_byte(ref logic valid ,ref logic [7:0] data );
     @vif.mon_cb;
-    data = vif.mon_cb.txd;
-    valid = vif.mon_cb.tx_en;
+    data = vif.mon_cb.node0_pedo;
+    valid = vif.mon_cb.node0_peso;
 endtask
 
-task hello_monitor::receive_one_pkt(ref hello_transaction get_pkt);
+task ring_monitor::receive_one_pkt(ref ring_transaction get_pkt);
     byte unsigned data_q[$];//一个字节队列
     byte unsigned data_array[];
     logic [7:0] data;
